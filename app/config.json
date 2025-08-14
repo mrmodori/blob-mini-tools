@@ -1,0 +1,31 @@
+{
+  "window": {
+    "title": "Blob Mini Tools",
+    "geometry": "300x400",
+    "minsize": [
+      300,
+      400
+    ]
+  },
+  "toolbar": {
+    "height": 28
+  },
+  "tooltip": {
+    "delay": 500
+  },
+  "calc": {
+    "title": "Calc",
+    "max_history": 20
+  },
+  "padding": {
+    "padx": 10,
+    "pady": 5
+  },
+  "notes": {
+    "title": "Notes",
+    "tooltip": {
+      "add_note": "Add a new note"
+    },
+    "label": "Text"
+  }
+}
