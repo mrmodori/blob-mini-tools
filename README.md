@@ -1,6 +1,8 @@
 # Blob Mini Tools - (blob-mini-tools)
 
-A program with mini tools.
+A tini, blobish toolkit of utilites made to stay out of your way, but always ready to help.
+
+---
 
 ## Goals
 
@@ -8,17 +10,24 @@ A program with mini tools.
 - Keep it simple
 - Keep it blobish
 
+---
+
 ## Current Features
 
-- Notes
-- Calculator
-- Color picker
+- Notes (multi-tab, saves on exit, Ctrl+A support!!!)
+- Calculator (buttons, input, history)
+- Color picker (steal color from the screen, get a hex, and keep the history)
+
+---
 
 ## Requirements
 
-### Linux:
+**Linux only (for now)**
+- Python 3
+- Tkinter (install python3-tk via your package manager)
+- `xcolor` (for screen color stea... picker)
 
-- Install **python3-tk** via your package manager.
+---
 
 # How to run
 
@@ -27,44 +36,65 @@ cd app
 python main.py
 ```
 
+No installer. No extras. Just run.
+
+---
+
 # Widgets
 
-## Notes
+## Notes Widget
 
-- Multi tab support
+Write text, paste text, copy text, do text stuff.
+
+### Features:
+- Multi tab layout
 - Save on exit
-- Ctrl + A
+- Select all support!!! (ctrl + a)
 
-## Calculator
+## Calculator Widget
 
+Let your computer math, not you.
+
+### Features:
 - Buttons
 - History
+- Works most of the times.
 
-## Color Picker
+## Color Picker Widget
 
+The reason this exists, i wanted to get the hex for a color.
+
+### Features:
 - Color picker (via xcolor)
 - Hex values
-- History
+- Steals colors (not really, just gives you the hex value)
 
 ## General
 
-- Saves window position between sessions
+- Remembers window position (so you don't have to)
+
+---
 
 ## Documentation
 
-See documentation folder.
+See the [`documentation/`](documentation/) folder for scrambless.
+
+---
 
 ## License
 
 BSD 3-Clause.
 
-See LICENSE file.
+See the [LICENSE](LICENSE) file.
+
+---
 
 ## Commercial Use
 
 Blob AI is an open-source project released under the BSD 3-Clause License.
-If you're interested in commercial use, licensing, or collaboration, feel free to reach out:  
-**modtools@proton.me**
+If you're interested in commercial use, licensing, or collaboration, feel free to reach out.
+
+---
 
 ## Attribution
 
