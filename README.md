@@ -14,6 +14,12 @@ A program with mini tools.
 - Calculator
 - Color picker
 
+## Requirements
+
+### Linux:
+
+- Install **python3-tk** via your package manager.
+
 # How to run
 
 ```bash
