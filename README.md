@@ -1,6 +1,6 @@
 # Blob Mini Tools - (blob-mini-tools)
 
-A tini, blobish toolkit of utilites made to stay out of your way, but always ready to help.
+A tiny, blobish toolkit of utillites made to stay out of your way, but always ready to help.
 
 ---
 
@@ -77,7 +77,7 @@ The reason this exists, i wanted to get the hex for a color.
 
 ## Documentation
 
-See the [`documentation/`](documentation/) folder for scrambless.
+See the [`documentation/`](documentation/) folder for gibberish.
 
 ---
 
