@@ -91,7 +91,7 @@ See the [LICENSE](LICENSE) file.
 
 ## Commercial Use
 
-Blob AI is an open-source project released under the BSD 3-Clause License.
+blob-mini-tools is an open-source project released under the BSD 3-Clause License.
 If you're interested in commercial use, licensing, or collaboration, feel free to reach out.
 
 ---
