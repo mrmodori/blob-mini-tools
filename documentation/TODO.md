@@ -2,16 +2,16 @@
 
 ## Planned Features
 
-### Notes
+### Notes Widget
 
 - Improve text editing
 - Improve note saving
 
-### Calculator
+### Calculator Widget
 
 - Add history scroll.
 
-### Color Picker
+### Color Picker Widget
 
 - Display a list of previously picked colors
 - Each item should:
