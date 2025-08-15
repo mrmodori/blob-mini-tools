@@ -82,5 +82,9 @@ def create_calc_tab(app):
     history_frame = ttk.LabelFrame(calc_tab, text="History")
     history_frame.pack(fill='both', expand=False, padx=10, pady=(0, 8))
 
-    app.calc_history = Listbox(history_frame, height=6)
-    app.calc_history.pack(fill='both', expand=True)
+    scrollbar = ttk.Scrollbar(history_frame, orient='vertical')
+    scrollbar.pack(side='right', fill='y')
+
+    app.calc_history = Listbox(history_frame, height=6, yscrollcommand=scrollbar.set)
+    app.calc_history.pack(side='left', fill='both', expand=True)
+    scrollbar.config(command=app.calc_history.yview)

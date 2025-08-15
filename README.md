@@ -1,6 +1,6 @@
 # Blob Mini Tools - (blob-mini-tools)
 
-A tiny, blobish toolkit of utillites made to stay out of your way, but always ready to help.
+A tiny blobish toolkit of utilites made to stay out of your way but always ready to help.
 
 ---
 
@@ -16,7 +16,7 @@ A tiny, blobish toolkit of utillites made to stay out of your way, but always re
 
 - Notes (multi-tab, saves on exit, Ctrl+A support!!!)
 - Calculator (buttons, input, history)
-- Color picker (steal color from the screen, get a hex, and keep the history)
+- Color picker (steal color from the screen and get a hex)
 
 ---
 
@@ -25,7 +25,7 @@ A tiny, blobish toolkit of utillites made to stay out of your way, but always re
 **Linux only (for now)**
 - Python 3
 - Tkinter (install python3-tk via your package manager)
-- `xcolor` (for screen color stea... picker)
+- `xcolor` (for color stealing (read picking))
 
 ---
 
@@ -47,9 +47,9 @@ No installer. No extras. Just run.
 Write text, paste text, copy text, do text stuff.
 
 ### Features:
-- Multi tab layout
+- Multi-tab layout
 - Save on exit
-- Select all support!!! (ctrl + a)
+- Select all support!!! (Ctrl+A)
 
 ## Calculator Widget
 
@@ -62,7 +62,7 @@ Let your computer math, not you.
 
 ## Color Picker Widget
 
-The reason this exists, i wanted to get the hex for a color.
+The reason this exists: I wanted to get the hex for a color.
 
 ### Features:
 - Color picker (via xcolor)

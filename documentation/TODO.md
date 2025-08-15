@@ -9,7 +9,7 @@
 
 ### Calculator Widget
 
-- Add history scroll.
+- ~~Add history scroll.~~
 
 ### Color Picker Widget
 
