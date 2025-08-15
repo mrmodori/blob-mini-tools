@@ -2,23 +2,17 @@
 
 A tiny blobish toolkit of utilites made to stay out of your way but always ready to help.
 
----
-
 ## Goals
 
 - Keep it lightweight
 - Keep it simple
 - Keep it blobish
 
----
-
 ## Current Features
 
 - Notes (multi-tab, saves on exit, Ctrl+A support!!!)
 - Calculator (buttons, input, history)
 - Color picker (steal color from the screen and get a hex)
-
----
 
 ## Requirements
 
@@ -27,16 +21,24 @@ A tiny blobish toolkit of utilites made to stay out of your way but always ready
 - Tkinter (install python3-tk via your package manager)
 - `xcolor` (for color stealing (read picking))
 
----
-
 # How to run
 
+Run the bash script.
+
 ```bash
-cd app
-python main.py
+./run.sh
 ```
 
 No installer. No extras. Just run.
+
+## Alternative
+
+Start the main.py from the app folder.
+
+```bash
+cd app
+python3 main.py
+```
 
 ---
 
@@ -79,22 +81,16 @@ The reason this exists: I wanted to get the hex for a color.
 
 See the [`documentation/`](documentation/) folder for gibberish.
 
----
-
 ## License
 
 BSD 3-Clause.
 
 See the [LICENSE](LICENSE) file.
 
----
-
 ## Commercial Use
 
 blob-mini-tools is an open-source project released under the BSD 3-Clause License.
 If you're interested in commercial use, licensing, or collaboration, feel free to reach out.
-
----
 
 ## Attribution
 
