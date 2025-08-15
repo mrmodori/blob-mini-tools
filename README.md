@@ -59,7 +59,7 @@ Let your computer math, not you.
 
 ### Features:
 - Buttons
-- History
+- History (configurable via `calc.max_history` in `config.json`, default 20)
 - Works most of the times.
 
 ## Color Picker Widget
