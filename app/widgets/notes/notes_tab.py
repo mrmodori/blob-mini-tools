@@ -15,6 +15,7 @@ context menu live on the instance itself.
 
 from __future__ import annotations
 
+import json
 import tkinter as tk
 from tkinter import ttk, scrolledtext
 
@@ -24,6 +25,9 @@ from core.config import CONFIG
 
 class NotesTab:
     """Encapsulates the Notes tab and its behaviour."""
+
+    # Path to the notes file (configurable via CONFIG)
+    notes_file: str = CONFIG["notes"].get("path", "notes.json")
 
     def __init__(self, root: tk.Misc, saved_notes: list[str] | None = None) -> None:
         """Create a new ``NotesTab``.
@@ -39,7 +43,7 @@ class NotesTab:
         """
 
         self.root = root
-        self.saved_notes = saved_notes or [""]
+        self.saved_notes = saved_notes if saved_notes is not None else self.load_notes()
 
         # Widgets created during :meth:`build`.
         self.outer_frame: ttk.Frame | None = None
@@ -49,6 +53,37 @@ class NotesTab:
         # Internal state
         self.notes_pages: list[tk.Text] = []
         self._note_menu: tk.Menu | None = None
+
+    # ------------------------------------------------------------------
+    # Persistence helpers
+    # ------------------------------------------------------------------
+    @classmethod
+    def load_notes(cls) -> list[str]:
+        """Load saved notes from file or return a default list."""
+
+        try:
+            with open(cls.notes_file, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            if isinstance(data, list):
+                return data
+        except Exception:
+            pass
+        return [""]
+
+    @classmethod
+    def save_notes(cls, notes: list[str]) -> None:
+        """Persist notes to the notes file."""
+
+        try:
+            with open(cls.notes_file, "w", encoding="utf-8") as f:
+                json.dump(notes, f)
+        except Exception:
+            pass
+
+    def save(self) -> None:
+        """Save current notes to the configured notes file."""
+
+        self.save_notes(self.get_notes())
 
     # ------------------------------------------------------------------
     # Building and utilities
