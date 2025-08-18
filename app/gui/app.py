@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import ttk
-import json
 
 from core.config import CONFIG
 from core.window_position import load_window_position, save_window_position
@@ -8,6 +7,7 @@ from core.window_mover import MovementManager
 
 from widgets.toolbar import create_toolbar
 from widgets.notes.notes_tab import create_notes_tab
+from widgets.notes.notes import load_notes, save_notes
 from widgets.calc.calc_tab import create_calc_tab
 from widgets.color.color_tab import create_color_tab
 
@@ -33,11 +33,7 @@ class MultitoolApp:
         self.notebook.pack(fill='both', expand=True)
 
         # Load notes if available
-        try:
-            with open("notes.json", "r", encoding="utf-8") as f:
-                self.saved_notes = json.load(f)
-        except Exception:
-            self.saved_notes = [""]
+        self.saved_notes = load_notes()
 
         # Add tabs
         create_notes_tab(self)
@@ -52,12 +48,8 @@ class MultitoolApp:
         save_window_position(self.root)
 
         # Save notes
-        try:
-            if hasattr(self, 'notes_pages'):
-                notes = [txt.get('1.0', tk.END).rstrip() for txt in self.notes_pages]
-                with open("notes.json", "w", encoding="utf-8") as f:
-                    json.dump(notes, f)
-        except Exception as e:
-            print("Failed to save notes:", e)
+        if hasattr(self, 'notes_pages'):
+            notes = [txt.get('1.0', tk.END).rstrip() for txt in self.notes_pages]
+            save_notes(notes)
 
         self.root.destroy()
