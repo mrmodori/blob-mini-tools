@@ -6,7 +6,7 @@ from core.window_position import load_window_position, save_window_position
 from core.window_mover import MovementManager
 
 from widgets.toolbar import create_toolbar
-from widgets.notes.notes_tab import create_notes_tab
+from widgets.notes.notes_tab import NotesTab
 from widgets.notes.notes import load_notes, save_notes
 from widgets.calc.calc_tab import create_calc_tab
 from widgets.color.color_tab import create_color_tab
@@ -32,11 +32,10 @@ class MultitoolApp:
         self.notebook = ttk.Notebook(self.root)
         self.notebook.pack(fill='both', expand=True)
 
-        # Load notes if available
-        self.saved_notes = load_notes()
-
-        # Add tabs
-        create_notes_tab(self)
+        # Load notes and build tabs
+        saved_notes = load_notes()
+        self.notes_tab = NotesTab(self.root, saved_notes)
+        self.notebook.add(self.notes_tab.build(self.notebook), text=CONFIG["notes"]["title"])
         create_calc_tab(self)
         create_color_tab(self)
 
@@ -48,8 +47,7 @@ class MultitoolApp:
         save_window_position(self.root)
 
         # Save notes
-        if hasattr(self, 'notes_pages'):
-            notes = [txt.get('1.0', tk.END).rstrip() for txt in self.notes_pages]
-            save_notes(notes)
+        notes = self.notes_tab.get_notes()
+        save_notes(notes)
 
         self.root.destroy()
