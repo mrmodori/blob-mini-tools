@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk, Listbox
 from utils.safe_eval import SafeEvaluator
 from utils.tooltip import ToolTip
+from core.config import CONFIG
 
 def create_calc_tab(app):
     calc_tab = ttk.Frame(app.notebook)
@@ -53,7 +54,7 @@ def create_calc_tab(app):
             result = evaluator.eval(expr)
             app.result_var.set(str(result))
             app.calc_history.insert(tk.END, f"{expr} = {result}")
-            if app.calc_history.size() > 20:
+            if app.calc_history.size() > CONFIG['calc']['max_history']:
                 app.calc_history.delete(0)
             app.calc_history.yview_moveto(1.0)
         except Exception:

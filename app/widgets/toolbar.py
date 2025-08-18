@@ -4,7 +4,7 @@ from utils.tooltip import ToolTip
 from core.config import CONFIG
 
 def create_toolbar(app):
-    """Create a toolbar and attach it to app.root. Requires `app.theme` and `app.borderless`."""
+    """Create a toolbar and attach it to app.root."""
     toolbar = ttk.Frame(app.root, height=CONFIG["toolbar"]["height"])
     toolbar.pack(fill='x')
     
