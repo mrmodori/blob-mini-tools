@@ -7,7 +7,7 @@ from core.window_mover import MovementManager
 
 from widgets.toolbar import create_toolbar
 from widgets.notes.notes_tab import NotesTab
-from widgets.calc.calc_tab import create_calc_tab
+from widgets.calc.calc_tab import CalcTab
 from widgets.color.color_tab import create_color_tab
 
 class MultitoolApp:
@@ -34,8 +34,15 @@ class MultitoolApp:
         # Load notes and build tabs
         saved_notes = NotesTab.load_notes()
         self.notes_tab = NotesTab(self.root, saved_notes)
-        self.notebook.add(self.notes_tab.build(self.notebook), text=CONFIG["notes"]["title"])
-        create_calc_tab(self)
+        self.notebook.add(
+            self.notes_tab.build(self.notebook), text=CONFIG["notes"]["title"]
+        )
+
+        self.calc_tab = CalcTab(self.root)
+        self.notebook.add(
+            self.calc_tab.build(self.notebook), text=CONFIG["calc"]["title"]
+        )
+
         create_color_tab(self)
 
         # Close handler

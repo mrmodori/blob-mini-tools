@@ -87,6 +87,10 @@ BSD 3-Clause.
 
 See the [LICENSE](LICENSE) file.
 
+For AI-Policy
+
+See the [AI_POLICY.md](AI_POLICY.md) file.
+
 ## Commercial Use
 
 blob-mini-tools is an open-source project released under the BSD 3-Clause License.
