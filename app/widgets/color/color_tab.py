@@ -1,88 +1,126 @@
-import tkinter as tk
-from tkinter import ttk, colorchooser, messagebox
+"""Color picker tab widget.
+
+This module defines the :class:`ColorTab` class which mirrors the
+object‑oriented structure used by the other widgets in the application.  The
+previous implementation exposed a ``create_color_tab`` function that mutated a
+passed ``app`` object.  For better encapsulation, the state is now contained
+within this class and all widget references live on the instance.
+"""
+
+from __future__ import annotations
+
 import subprocess
 import sys
 import shutil
+import tkinter as tk
+from tkinter import ttk, colorchooser, messagebox
+
 from utils.tooltip import ToolTip
 
-def create_color_tab(app):
-    color_tab = ttk.Frame(app.notebook)
-    app.notebook.add(color_tab, text="Color")
 
-    # --- Color Picker Button ---
-    pick_btn = ttk.Button(color_tab, text="Pick Color", command=lambda: _pick_color(app))
-    pick_btn.pack(pady=5, padx=10, fill='x')
-    ToolTip(pick_btn, "Open a color chooser dialog")
+class ColorTab:
+    """Encapsulates the color picker tab and its behaviour."""
 
-    # --- Screen Color Picker Button ---
-    pick_screen_btn = ttk.Button(color_tab, text="Pick Screen Pixel", command=lambda: _pick_screen_color(app))
-    if not sys.platform.startswith('linux') or shutil.which('xcolor') is None:
-        pick_screen_btn.configure(state='disabled')
-    pick_screen_btn.pack(pady=5, padx=10, fill='x')
-    ToolTip(pick_screen_btn, "Pick color from screen (Linux only with xcolor)")
+    def __init__(self, root: tk.Misc) -> None:
+        self.root = root
 
-    # --- Color Hex Entry (readonly) ---
-    hex_var = tk.StringVar()
-    color_entry = ttk.Entry(color_tab, textvariable=hex_var, state='readonly', justify='center')
-    color_entry.pack(pady=5, padx=10, fill='x')
-    ToolTip(color_entry, "Hex color value (auto copied to clipboard)")
+        # Widgets initialised during :meth:`build`.
+        self.outer_frame: ttk.Frame | None = None
+        self.hex_var = tk.StringVar()
+        self.color_entry: ttk.Entry | None = None
+        self.swatch: tk.Frame | None = None
 
-    # --- Color Swatch Panel ---
-    swatch = tk.Frame(color_tab, height=30, bg="#ffffff", relief='sunken', borderwidth=1)
-    swatch.pack(pady=5, padx=10, fill='x')
-    
-    def update_swatch(*_):
-        value = hex_var.get().strip()
+    # ------------------------------------------------------------------
+    def build(self, parent_notebook: ttk.Notebook) -> ttk.Frame:
+        """Build the color picker UI and return the top-level frame."""
+
+        self.outer_frame = ttk.Frame(parent_notebook)
+
+        # --- Color Picker Button ---
+        pick_btn = ttk.Button(
+            self.outer_frame, text="Pick Color", command=self._pick_color
+        )
+        pick_btn.pack(pady=5, padx=10, fill="x")
+        ToolTip(pick_btn, "Open a color chooser dialog")
+
+        # --- Screen Color Picker Button ---
+        pick_screen_btn = ttk.Button(
+            self.outer_frame, text="Pick Screen Pixel", command=self._pick_screen_color
+        )
+        if not sys.platform.startswith("linux") or shutil.which("xcolor") is None:
+            pick_screen_btn.configure(state="disabled")
+        pick_screen_btn.pack(pady=5, padx=10, fill="x")
+        ToolTip(pick_screen_btn, "Pick color from screen (Linux only with xcolor)")
+
+        # --- Color Hex Entry (readonly) ---
+        self.color_entry = ttk.Entry(
+            self.outer_frame,
+            textvariable=self.hex_var,
+            state="readonly",
+            justify="center",
+        )
+        self.color_entry.pack(pady=5, padx=10, fill="x")
+        ToolTip(self.color_entry, "Hex color value (auto copied to clipboard)")
+
+        # --- Color Swatch Panel ---
+        self.swatch = tk.Frame(
+            self.outer_frame, height=30, bg="#ffffff", relief="sunken", borderwidth=1
+        )
+        self.swatch.pack(pady=5, padx=10, fill="x")
+
+        # Trace changes to update swatch colour
+        self.hex_var.trace_add("write", lambda *_: self._update_swatch())
+
+        # --- Label ---
+        ttk.Label(self.outer_frame, text="Hex copied to clipboard").pack(pady=5)
+
+        return self.outer_frame
+
+    # ------------------------------------------------------------------
+    def _pick_color(self) -> None:
+        color = colorchooser.askcolor(parent=self.root, title="Choose a color")
+        if color and color[1]:
+            self._update_color(color[1])
+
+    # ------------------------------------------------------------------
+    def _pick_screen_color(self) -> None:
+        # Hide window before picking
+        self.root.withdraw()
+        self.root.after(300, self._run_xcolor)
+
+    # ------------------------------------------------------------------
+    def _run_xcolor(self) -> None:
+        try:
+            result = subprocess.run(
+                ["xcolor"], capture_output=True, text=True, timeout=10
+            )
+            hex_color = result.stdout.strip()
+            if hex_color.startswith("#") and len(hex_color) == 7:
+                self._update_color(hex_color)
+        except Exception as e:  # pragma: no cover - GUI path
+            messagebox.showerror("Error", f"xcolor failed: {e}")
+        finally:
+            self.root.deiconify()
+
+    # ------------------------------------------------------------------
+    def _update_swatch(self) -> None:
+        if self.swatch is None:
+            return
+        value = self.hex_var.get().strip()
         if value.startswith("#") and len(value) == 7:
             try:
-                swatch.configure(bg=value)
+                self.swatch.configure(bg=value)
             except tk.TclError:
-                swatch.configure(bg="#ffffff")  # fallback if invalid
+                self.swatch.configure(bg="#ffffff")
         else:
-            swatch.configure(bg="#ffffff")
+            self.swatch.configure(bg="#ffffff")
 
-    # Trace changes to the hex value
-    hex_var.trace_add('write', update_swatch)
+    # ------------------------------------------------------------------
+    def _update_color(self, value: str) -> None:
+        self.hex_var.set(value)
+        try:
+            self.root.clipboard_clear()
+            self.root.clipboard_append(value)
+        except Exception:
+            pass
 
-    # --- Label ---
-    ttk.Label(color_tab, text="Hex copied to clipboard").pack(pady=5)
-
-    # Save reference for theming or updates
-    app.color_hex_var = hex_var
-    app.color_entry = color_entry
-    app.color_swatch = swatch
-
-
-
-def _pick_color(app):
-    color = colorchooser.askcolor(parent=app.root, title="Choose a color")
-    if color and color[1]:
-        _update_color(app, color[1])
-
-
-def _pick_screen_color(app):
-    # Hide window before picking
-    app.root.withdraw()
-    app.root.after(300, lambda: _run_xcolor(app))
-
-
-def _run_xcolor(app):
-    try:
-        result = subprocess.run(['xcolor'], capture_output=True, text=True, timeout=10)
-        hex_color = result.stdout.strip()
-        if hex_color.startswith("#") and len(hex_color) == 7:
-            _update_color(app, hex_color)
-    except Exception as e:
-        messagebox.showerror("Error", f"xcolor failed: {e}")
-    finally:
-        app.root.deiconify()
-
-
-
-def _update_color(app, value: str):
-    app.color_hex_var.set(value)
-    try:
-        app.root.clipboard_clear()
-        app.root.clipboard_append(value)
-    except Exception:
-        pass

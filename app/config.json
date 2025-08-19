@@ -17,6 +17,9 @@
     "title": "Calc",
     "max_history": 20
   },
+  "color": {
+    "title": "Color"
+  },
   "padding": {
     "padx": 10,
     "pady": 5

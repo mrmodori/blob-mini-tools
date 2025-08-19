@@ -8,7 +8,7 @@ from core.window_mover import MovementManager
 from widgets.toolbar import create_toolbar
 from widgets.notes.notes_tab import NotesTab
 from widgets.calc.calc_tab import CalcTab
-from widgets.color.color_tab import create_color_tab
+from widgets.color.color_tab import ColorTab
 
 class MultitoolApp:
     def __init__(self, root):
@@ -43,7 +43,10 @@ class MultitoolApp:
             self.calc_tab.build(self.notebook), text=CONFIG["calc"]["title"]
         )
 
-        create_color_tab(self)
+        self.color_tab = ColorTab(self.root)
+        self.notebook.add(
+            self.color_tab.build(self.notebook), text=CONFIG["color"]["title"]
+        )
 
         # Close handler
         self.root.protocol("WM_DELETE_WINDOW", self.on_close)
