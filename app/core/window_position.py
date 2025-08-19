@@ -1,13 +1,16 @@
-import os
-import json
+"""Helper functions for persisting window geometry."""
 
-POS_FILE = "winpos.json"
+import json
+from pathlib import Path
+
+# Resolve the path to ``winpos.json`` relative to the ``app`` directory.
+POS_FILE = (Path(__file__).resolve().parent / ".." / "winpos.json").resolve()
 
 def load_window_position(root):
     """Apply saved geometry (if available) to the root window."""
-    if os.path.exists(POS_FILE):
+    if POS_FILE.exists():
         try:
-            with open(POS_FILE, 'r', encoding='utf-8') as f:
+            with open(POS_FILE, "r", encoding="utf-8") as f:
                 data = json.load(f)
             geometry = data.get("geometry")
             if geometry:
@@ -19,7 +22,7 @@ def save_window_position(root):
     """Store current geometry to file."""
     data = {"geometry": root.geometry()}
     try:
-        with open(POS_FILE, 'w', encoding='utf-8') as f:
+        with open(POS_FILE, "w", encoding="utf-8") as f:
             json.dump(data, f)
     except Exception:
         pass
