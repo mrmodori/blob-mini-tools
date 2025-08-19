@@ -79,7 +79,11 @@ The reason this exists: I wanted to get the hex for a color.
 
 ## Documentation
 
-See the [`documentation/`](documentation/) folder for gibberish.
+See the [documentation/](documentation/) folder for gibberish.
+
+### Tests
+
+For the tests policy see [documentation/TESTS_POLICY.md](documentation/TESTS_POLICY.md).
 
 ## License
 
