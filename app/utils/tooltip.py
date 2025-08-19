@@ -1,10 +1,11 @@
 import tkinter as tk
+from core.config import CONFIG
 
 class ToolTip:
-    def __init__(self, widget, text, delay=500):
+    def __init__(self, widget, text, delay=None):
         self.widget = widget
         self.text = text
-        self.delay = delay  # milliseconds
+        self.delay = CONFIG["tooltip"]["delay"] if delay is None else delay
         self.tipwindow = None
         self._after_id = None
 

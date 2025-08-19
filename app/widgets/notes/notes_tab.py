@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import json
 import tkinter as tk
+from pathlib import Path
 from tkinter import ttk, scrolledtext
 
 from utils.tooltip import ToolTip
@@ -26,8 +27,11 @@ from core.config import CONFIG
 class NotesTab:
     """Encapsulates the Notes tab and its behaviour."""
 
-    # Path to the notes file (configurable via CONFIG)
-    notes_file: str = CONFIG["notes"].get("path", "notes.json")
+    # Path to the notes file (configurable via CONFIG).  The file is
+    # resolved relative to this module to ensure it can always be located.
+    notes_file: Path = (
+        Path(__file__).resolve().parent / CONFIG["notes"].get("path", "notes.json")
+    ).resolve()
 
     def __init__(self, root: tk.Misc, saved_notes: list[str] | None = None) -> None:
         """Create a new ``NotesTab``.
